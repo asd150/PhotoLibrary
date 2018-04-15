@@ -100,6 +100,38 @@ private  Button slideShow;
 
 
 
+        tagList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(OpenPhoto.this);
+
+                builder.setTitle("Delete tag");
+                builder.setMessage("Are you sure? You want to Delete the Tag");
+
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        int index = position;
+
+                        currentPhoto.getTags().remove(position);
+                        albumUsers.saveToDisk(OpenPhoto.this);
+                        ArrayAdapter<Tag>   adapter = new ArrayAdapter<Tag>(OpenPhoto.this, android.R.layout.simple_list_item_1,(ArrayList<Tag>)currentPhoto.getTags());
+                        tagList.setAdapter(adapter);
+                        dialog.dismiss();
+
+                    }
+                });
+
+                builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                builder.show();
+                return true;
+            }
+        });
 
     }
 

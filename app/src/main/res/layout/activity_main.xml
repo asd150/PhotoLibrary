@@ -2,18 +2,18 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layoutid"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
 
+    android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".MainActivity"
-    >
+    tools:context=".MainActivity">
 
 
     <ListView
         android:id="@+id/photo_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="457dp" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/addButton"
@@ -37,5 +37,15 @@
         android:visibility="invisible"
         app:rippleColor="@android:color/background_light"
         app:srcCompat="@android:drawable/ic_delete" />
+
+    <Button
+        android:id="@+id/rename"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/photo_list"
+        android:layout_marginStart="29dp"
+        android:text="@string/rename_album"
+        android:visibility="invisible" />
 
 </RelativeLayout>

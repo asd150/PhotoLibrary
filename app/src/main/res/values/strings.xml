@@ -13,4 +13,6 @@
     <string name="todo">TODO</string>
     <string name="back">Back</string>
     <string name="slideshow">SlideShow</string>
+    <string name="button">Button</string>
+    <string name="rename_album">Rename Album</string>
 </resources>
