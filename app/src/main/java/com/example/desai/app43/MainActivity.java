@@ -22,6 +22,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
     private AlbumUsers albumUsers;
     private User user;
+    private int currentUserIndex =0;
     private ListView listView;
     private ArrayList<Album> albumList;
     private ArrayAdapter<Album> arrayAdapter;
@@ -29,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private Button rename;
     private RelativeLayout layout;
     private  FloatingActionButton delbtn;
+    private FloatingActionButton search;
     private final static String INDEX = "index";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
             User u = new User("Arth");
             albumUsers.addUsers(u);
             user = albumUsers.getUsers().get(0);
+
         }
         else{
             user = albumUsers.getUsers().get(0);
@@ -54,6 +57,8 @@ public class MainActivity extends AppCompatActivity {
         listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         arrayAdapter = new ArrayAdapter<Album>(this,R.layout.albumsel,user.getAlbums());
         listView.setAdapter(arrayAdapter);
+
+        search = (FloatingActionButton) findViewById(R.id.searchTags);
 
         addbutton = (FloatingActionButton) findViewById(R.id.addButton);
         rename = (Button) findViewById(R.id.rename);
@@ -128,6 +133,7 @@ public class MainActivity extends AppCompatActivity {
                delbtn = (FloatingActionButton) findViewById(R.id.deleteButton);
                 delbtn.setVisibility(View.VISIBLE);
                 rename.setVisibility(View.VISIBLE);
+                search.setVisibility(View.INVISIBLE);
                 addbutton.setVisibility(View.INVISIBLE);
 
                 delbtn.setOnClickListener(new View.OnClickListener() {
@@ -143,6 +149,7 @@ public class MainActivity extends AppCompatActivity {
                                 listView.setAdapter(arrayAdapter);
                                 delbtn.setVisibility(View.INVISIBLE);
                                 addbutton.setVisibility(View.VISIBLE);
+                                search.setVisibility(View.VISIBLE);
                                 albumUsers.saveToDisk(MainActivity.this);
                             }
                         });
@@ -153,6 +160,7 @@ public class MainActivity extends AppCompatActivity {
                                 dialog.cancel();
                                 delbtn.setVisibility(View.INVISIBLE);
                                 rename.setVisibility(View.INVISIBLE);
+                                search.setVisibility(View.VISIBLE);
                                 addbutton.setVisibility(View.VISIBLE);
                             }
                         });
@@ -179,6 +187,7 @@ public class MainActivity extends AppCompatActivity {
                                 if(getInput.isEmpty()){
                                     delbtn.setVisibility(View.INVISIBLE);
                                     rename.setVisibility(View.INVISIBLE);
+                                    search.setVisibility(View.VISIBLE);
                                     addbutton.setVisibility(View.VISIBLE);
                                     return;
                                 }
@@ -210,6 +219,7 @@ public class MainActivity extends AppCompatActivity {
                                 }
                                 delbtn.setVisibility(View.INVISIBLE);
                                 rename.setVisibility(View.INVISIBLE);
+                                search.setVisibility(View.VISIBLE);
                                 addbutton.setVisibility(View.VISIBLE);
                             }
 
@@ -220,6 +230,7 @@ public class MainActivity extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int which) {
                                 delbtn.setVisibility(View.INVISIBLE);
                                 rename.setVisibility(View.INVISIBLE);
+                                search.setVisibility(View.VISIBLE);
                                 addbutton.setVisibility(View.VISIBLE);
                                 dialog.dismiss();
                             }
@@ -254,11 +265,26 @@ public class MainActivity extends AppCompatActivity {
 
                    delbtn.setVisibility(View.INVISIBLE);
                    rename.setVisibility(View.INVISIBLE);
+               search.setVisibility(View.VISIBLE);
                    addbutton.setVisibility(View.VISIBLE);
 
            }
        });
 
+       search.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+                if(user.getAlbums().size()>0){
+                    Bundle bundle = new Bundle();
+                    bundle.putInt(searchTags.USER_INDEX,0);
+
+                    Intent intent = new Intent(MainActivity.this,searchTags.class);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+
+                }
+           }
+       });
     }
 
 }

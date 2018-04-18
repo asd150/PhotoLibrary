@@ -13,7 +13,9 @@
     <ListView
         android:id="@+id/photo_list"
         android:layout_width="match_parent"
-        android:layout_height="457dp" />
+        android:layout_height="452dp"
+        android:layout_above="@+id/addButton"
+        android:layout_alignParentStart="true" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/addButton"
@@ -41,11 +43,20 @@
     <Button
         android:id="@+id/rename"
         android:layout_width="wrap_content"
+        android:layout_height="37dp"
+        android:layout_below="@+id/photo_list"
+        android:layout_centerHorizontal="true"
+        android:text="@string/rename_album"
+        android:visibility="invisible" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/searchTags"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/photo_list"
-        android:layout_marginStart="29dp"
-        android:text="@string/rename_album"
-        android:visibility="invisible" />
+        android:layout_marginStart="13dp"
+        android:clickable="true"
+        app:srcCompat="@android:drawable/ic_menu_search" />
 
 </RelativeLayout>

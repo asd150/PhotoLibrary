@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -25,7 +26,9 @@ public class Photos implements Serializable {
     private List<Album> parentAlb;
     private String caption;
     transient Bitmap image;
-    private Map<String, ArrayList<String>> tagsHashTable = new HashMap<>();
+    private ArrayList<String> personlist =new ArrayList<>();
+    private ArrayList<String> locationlist = new ArrayList<>();
+     private Map<String, ArrayList<String>> tagsHashTable = new HashMap<>();
 
     /**
      *
@@ -213,6 +216,24 @@ public class Photos implements Serializable {
     }
 
 
+    public void personArray(String person){
+        personlist.add(person);
+
+
+
+    }
+    public void locationArray(String location){
+        locationlist.add(location);
+
+    }
+
+    public ArrayList<String> getLocationlist() {
+        return locationlist;
+    }
+
+    public ArrayList<String> getPersonlist() {
+        return personlist;
+    }
 
     public void setImage(Bitmap image) {
         this.image = image;

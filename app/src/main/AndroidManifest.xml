@@ -22,6 +22,8 @@
         <activity android:name=".OpenPhoto"></activity>
         <activity android:name=".addTagClass"></activity>
         <activity android:name=".SlideShow"></activity>
+        <activity android:name=".searchTags"></activity>
+        <activity android:name=".searchResults"></activity>
     </application>
 
 </manifest>

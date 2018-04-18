@@ -97,6 +97,15 @@ public class addTagClass extends AppCompatActivity {
             currentPhoto.addTag(tg);
             albumUsers.saveToDisk(addTagClass.this);
 
+            if(tagKey.equalsIgnoreCase("location")){
+                currentPhoto.locationArray(tagvalue);
+            }
+            else if(tagKey.equalsIgnoreCase("person")){
+                currentPhoto.personArray(tagKey);
+
+            }
+            else
+            {}
              Bundle bundle = new Bundle();
          bundle.putInt(ALBUM_INDEX, albumindex);
         bundle.putInt(PHOTO_INDEX, photoindex);
