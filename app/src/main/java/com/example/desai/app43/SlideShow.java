@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -37,9 +38,13 @@ public class SlideShow extends AppCompatActivity {
 
 
         if(bundle!=null) {
-            Albumrec = bundle.getInt("ALBUM");
-            photorec = bundle.getInt("PHOTO");
+            Albumrec = bundle.getInt(OpenPhoto.ALBUM_INDEX);
+            photorec = bundle.getInt(OpenPhoto.PHOTO_INDEX);
+            Log.d("ALBUMREC",Albumrec + " album");
+            Log.d("ALBUMREC",photorec + " photo");
+
         }
+
         albumUsers = AlbumUsers.loadFromDisk(SlideShow.this);
         if(albumUsers.getUsers()!=null) {
             currentUser = albumUsers.getUsers().get(0);
@@ -79,13 +84,13 @@ public class SlideShow extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bundle bundle1 = new Bundle();
-                bundle.putInt(OpenPhoto.ALBUM_INDEX,Albumrec);
-                bundle.putInt(OpenPhoto.PHOTO_INDEX,photorec);
-
-                Intent intent = new Intent(SlideShow.this,OpenPhoto.class);
-                intent.putExtras(bundle);
-                startActivity(intent);
+//                Bundle bundle1 = new Bundle();
+//                bundle.putInt(ALBUM,Albumrec);
+//                bundle.putInt(PHOTO,photorec);
+//
+//                Intent intent = new Intent(SlideShow.this,OpenPhoto.class);
+//                intent.putExtras(bundle);
+//                startActivity(intent);
                 finish();
             }
         });

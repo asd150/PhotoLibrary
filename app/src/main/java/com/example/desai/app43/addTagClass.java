@@ -42,8 +42,8 @@ public class addTagClass extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
 
         if(bundle!=null){
-            albumindex = bundle.getInt(ALBUM_INDEX);
-            photoindex = bundle.getInt(PHOTO_INDEX);
+            albumindex = bundle.getInt(OpenPhoto.ALBUM_INDEX);
+            photoindex = bundle.getInt(OpenPhoto.PHOTO_INDEX);
 
 
         }
@@ -107,8 +107,8 @@ public class addTagClass extends AppCompatActivity {
             else
             {}
              Bundle bundle = new Bundle();
-         bundle.putInt(ALBUM_INDEX, albumindex);
-        bundle.putInt(PHOTO_INDEX, photoindex);
+         bundle.putInt("ALBUMINDEX", albumindex);
+        bundle.putInt("PHOTOINDEX", photoindex);
 
 
 

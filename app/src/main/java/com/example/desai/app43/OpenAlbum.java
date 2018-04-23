@@ -35,6 +35,8 @@ public class OpenAlbum extends AppCompatActivity {
     private Button moveButton;
     private final int SELECT_PHOTO = 1;
     private int AlbumIndex;
+    private Button back;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -70,6 +72,7 @@ public class OpenAlbum extends AppCompatActivity {
       moveButton.setVisibility(View.INVISIBLE);
       addButton = (FloatingActionButton) findViewById(R.id.addAlbum);
       deleteButton = (FloatingActionButton) findViewById(R.id.deletePhoto);
+    back = (Button) findViewById(R.id.backThumbnail);
 
         deleteButton.setVisibility(View.INVISIBLE);
         addButton.setOnClickListener(new View.OnClickListener() {
@@ -246,6 +249,17 @@ public class OpenAlbum extends AppCompatActivity {
         gridView.setAdapter(thumbAdapter);
         albumUsers.saveToDisk(OpenAlbum.this);
         Log.d("LIST OPENED",""+album.getListofphotos().size());
+
+
+
+
+       back.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+
+           }
+       });
+
 
     }
 

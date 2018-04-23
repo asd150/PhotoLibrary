@@ -39,6 +39,7 @@ private FloatingActionButton right;
 private FloatingActionButton left;
 private ArrayAdapter<Tag> adapter;
 private  Button slideShow;
+private Button back;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,7 +64,9 @@ private  Button slideShow;
         right = (FloatingActionButton) findViewById(R.id.rightarrow);
         left = (FloatingActionButton) findViewById( R.id.leftarrow);
         add = (FloatingActionButton)findViewById(R.id.addTagButton);
+        back = (Button) findViewById(R.id.backSlideshow);
         tagList = (ListView) findViewById(R.id.tagslistView);
+
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,(ArrayList<Tag>)currentPhoto.getTags());
         tagList.setAdapter(adapter);
 
@@ -74,8 +77,8 @@ private  Button slideShow;
 
                 Bundle bundle = new Bundle();
 
-                bundle.putInt(addTagClass.ALBUM_INDEX,albumindex);
-                bundle.putInt(addTagClass.PHOTO_INDEX,photoIndex);
+                bundle.putInt(ALBUM_INDEX,albumindex);
+                bundle.putInt(PHOTO_INDEX,photoIndex);
 
                 Intent intent = new Intent(OpenPhoto.this, addTagClass.class);
                 intent.putExtras(bundle);
@@ -89,12 +92,15 @@ private  Button slideShow;
             @Override
             public void onClick(View v) {
                 Bundle bundle1 = new Bundle();
-                bundle1.putInt(SlideShow.ALBUM,albumindex);
-                bundle1.putInt(SlideShow.PHOTO,photoIndex);
+                bundle1.putInt(ALBUM_INDEX,albumindex);
+                bundle1.putInt(PHOTO_INDEX,photoIndex);
+                Log.d("ALBUMREC",albumindex + " albumI");
+                Log.d("ALBUMREC",photoIndex + " photoI");
 
                 Intent intent = new Intent(OpenPhoto.this,SlideShow.class);
-                intent.putExtras(bundle);
+                intent.putExtras(bundle1);
                 startActivity(intent);
+                //THIS WORKS
             }
         });
 
@@ -130,6 +136,21 @@ private  Button slideShow;
                 });
                 builder.show();
                 return true;
+            }
+        });
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundlex = new Bundle();
+                bundlex.putInt("INDEX",albumindex);
+                Log.d("ALBUMREC",albumindex + "IN back ");
+
+                Intent intentx = new Intent(OpenPhoto.this,OpenAlbum.class);
+                    intentx.putExtras(bundlex);
+                    startActivity(intentx);
+
+
             }
         });
 
