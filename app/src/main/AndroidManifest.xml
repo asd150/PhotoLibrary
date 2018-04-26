@@ -24,6 +24,7 @@
         <activity android:name=".SlideShow"></activity>
         <activity android:name=".searchTags"></activity>
         <activity android:name=".searchResults"></activity>
+        <activity android:name=".newSearchClass"></activity>
     </application>
 
 </manifest>

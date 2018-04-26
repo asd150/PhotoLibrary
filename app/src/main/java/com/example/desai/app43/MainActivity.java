@@ -1,7 +1,9 @@
 package com.example.desai.app43;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.TestLooperManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -31,7 +34,10 @@ public class MainActivity extends AppCompatActivity {
     private RelativeLayout layout;
     private  FloatingActionButton delbtn;
     private FloatingActionButton search;
+    private TextView textView;
+    private TextView details;
     private final static String INDEX = "index";
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -52,12 +58,15 @@ public class MainActivity extends AppCompatActivity {
         }
         albumList = user.getAlbums();
        layout = (RelativeLayout) findViewById(R.id.layoutid);
-       layout.setClickable(true);
+
         listView = (ListView) findViewById(R.id.photo_list);
         listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         arrayAdapter = new ArrayAdapter<Album>(this,R.layout.albumsel,user.getAlbums());
         listView.setAdapter(arrayAdapter);
-
+        textView = (TextView) findViewById(R.id.testViewMain);
+        textView.setText("Albums");
+        details = (TextView) findViewById(R.id.textmainDetails);
+        details.setText("Albums From previous Session: " + user.getAlbums().size());
         search = (FloatingActionButton) findViewById(R.id.searchTags);
 
         addbutton = (FloatingActionButton) findViewById(R.id.addButton);
@@ -130,7 +139,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
 
             public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+                //listView.setSelected(true);
+                Toast.makeText(getApplicationContext(),"Selected " + user.getAlbums().get(position).getAlbumName(),Toast.LENGTH_LONG).show();
                delbtn = (FloatingActionButton) findViewById(R.id.deleteButton);
+               final Button cancelBtn = (Button) findViewById(R.id.MainCancel);
+               cancelBtn.setVisibility(View.VISIBLE);
                 delbtn.setVisibility(View.VISIBLE);
                 rename.setVisibility(View.VISIBLE);
                 search.setVisibility(View.INVISIBLE);
@@ -148,6 +161,8 @@ public class MainActivity extends AppCompatActivity {
                                 user.getAlbums().remove(position);
                                 listView.setAdapter(arrayAdapter);
                                 delbtn.setVisibility(View.INVISIBLE);
+                                cancelBtn.setVisibility(View.INVISIBLE);
+                                rename.setVisibility(View.INVISIBLE);
                                 addbutton.setVisibility(View.VISIBLE);
                                 search.setVisibility(View.VISIBLE);
                                 albumUsers.saveToDisk(MainActivity.this);
@@ -159,6 +174,7 @@ public class MainActivity extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.cancel();
                                 delbtn.setVisibility(View.INVISIBLE);
+                                cancelBtn.setVisibility(View.INVISIBLE);
                                 rename.setVisibility(View.INVISIBLE);
                                 search.setVisibility(View.VISIBLE);
                                 addbutton.setVisibility(View.VISIBLE);
@@ -186,6 +202,7 @@ public class MainActivity extends AppCompatActivity {
 
                                 if(getInput.isEmpty()){
                                     delbtn.setVisibility(View.INVISIBLE);
+                                    cancelBtn.setVisibility(View.INVISIBLE);
                                     rename.setVisibility(View.INVISIBLE);
                                     search.setVisibility(View.VISIBLE);
                                     addbutton.setVisibility(View.VISIBLE);
@@ -218,6 +235,7 @@ public class MainActivity extends AppCompatActivity {
 
                                 }
                                 delbtn.setVisibility(View.INVISIBLE);
+                                cancelBtn.setVisibility(View.INVISIBLE);
                                 rename.setVisibility(View.INVISIBLE);
                                 search.setVisibility(View.VISIBLE);
                                 addbutton.setVisibility(View.VISIBLE);
@@ -229,6 +247,7 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 delbtn.setVisibility(View.INVISIBLE);
+                                cancelBtn.setVisibility(View.INVISIBLE);
                                 rename.setVisibility(View.INVISIBLE);
                                 search.setVisibility(View.VISIBLE);
                                 addbutton.setVisibility(View.VISIBLE);
@@ -237,6 +256,19 @@ public class MainActivity extends AppCompatActivity {
                         });
 
                         builder.show();
+
+                    }
+                });
+
+                cancelBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        delbtn.setVisibility(View.INVISIBLE);
+                        cancelBtn.setVisibility(View.INVISIBLE);
+                        rename.setVisibility(View.INVISIBLE);
+                        search.setVisibility(View.VISIBLE);
+                        addbutton.setVisibility(View.VISIBLE);
 
                     }
                 });
@@ -259,17 +291,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-       layout.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
 
-                   delbtn.setVisibility(View.INVISIBLE);
-                   rename.setVisibility(View.INVISIBLE);
-               search.setVisibility(View.VISIBLE);
-                   addbutton.setVisibility(View.VISIBLE);
-
-           }
-       });
 
        search.setOnClickListener(new View.OnClickListener() {
            @Override
@@ -278,7 +300,7 @@ public class MainActivity extends AppCompatActivity {
                     Bundle bundle = new Bundle();
                     bundle.putInt(searchTags.USER_INDEX,0);
 
-                    Intent intent = new Intent(MainActivity.this,searchTags.class);
+                    Intent intent = new Intent(MainActivity.this,newSearchClass.class);
                     intent.putExtras(bundle);
                     startActivity(intent);
 

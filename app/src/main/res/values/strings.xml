@@ -8,15 +8,21 @@
     </string-array>
     <string name="tagValue">Enter tag.</string>
     <string name="add">Add</string>
-    <string name="cancel">Cancel</string>
+
     <string name="tag_type">Tag type:</string>
     <string name="todo">TODO</string>
     <string name="back">Back</string>
     <string name="slideshow">SlideShow</string>
     <string name="button">Button</string>
     <string name="rename_album">Rename Album</string>
-    <string name="search">Search</string>
+
 
     <string name="ok">OK</string>
     <string name="searchText">Search</string>
+    <string name="person">Person</string>
+    <string name="location">Location</string>
+    <string name="search_by_tags">Search By Tags</string>
+    <string name="search">Search</string>
+    <string name="cancel">Cancel</string>
+    <string name="search_photos">Search Photos</string>
 </resources>

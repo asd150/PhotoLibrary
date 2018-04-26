@@ -2,10 +2,13 @@ package com.example.desai.app43;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.provider.OpenableColumns;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
@@ -18,6 +21,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -36,6 +40,8 @@ public class OpenAlbum extends AppCompatActivity {
     private final int SELECT_PHOTO = 1;
     private int AlbumIndex;
     private Button back;
+    private Button cancel;
+
 
 
     @Override
@@ -46,7 +52,7 @@ public class OpenAlbum extends AppCompatActivity {
         setContentView(R.layout.thumbnail);
 
 
-        Bundle bundle = getIntent().getExtras();
+        final Bundle bundle = getIntent().getExtras();
         if(bundle!=null){
             index = bundle.getInt("INDEX");
             AlbumIndex = index;
@@ -68,6 +74,7 @@ public class OpenAlbum extends AppCompatActivity {
 
         gridView.setAdapter(thumbAdapter);
 
+        cancel = (Button) findViewById(R.id.thumbnailCancel);
       moveButton = (Button) findViewById(R.id.moveButton);
       moveButton.setVisibility(View.INVISIBLE);
       addButton = (FloatingActionButton) findViewById(R.id.addAlbum);
@@ -112,11 +119,25 @@ public class OpenAlbum extends AppCompatActivity {
 
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+
+                Toast.makeText(getApplicationContext(),"Selected position " + position,Toast.LENGTH_SHORT ).show();
                 final int selectedPhoto = position;
                 deleteButton.setVisibility(View.VISIBLE);
+                cancel.setVisibility(View.VISIBLE);
                 moveButton.setVisibility(View.VISIBLE);
                 addButton.setVisibility(View.INVISIBLE);
+                back.setVisibility(View.INVISIBLE);
+                cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        deleteButton.setVisibility(View.INVISIBLE);
+                        cancel.setVisibility(View.INVISIBLE);
+                        moveButton.setVisibility(View.INVISIBLE);
+                        addButton.setVisibility(View.VISIBLE);
+                        back.setVisibility(View.VISIBLE);
 
+                    }
+                });
                 deleteButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -133,7 +154,10 @@ public class OpenAlbum extends AppCompatActivity {
                                 gridView.setAdapter(thumbAdapter);
                                 albumUsers.saveToDisk(OpenAlbum.this);
                                 addButton.setVisibility(View.VISIBLE);
+                                back.setVisibility(View.VISIBLE);
                                 deleteButton.setVisibility(View.INVISIBLE);
+                                cancel.setVisibility(View.INVISIBLE);
+                                moveButton.setVisibility(View.INVISIBLE);
                             }
                         });
 
@@ -142,8 +166,10 @@ public class OpenAlbum extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.cancel();
                                 deleteButton.setVisibility(View.INVISIBLE);
+                                cancel.setVisibility(View.INVISIBLE);
                                 moveButton.setVisibility(View.INVISIBLE);
                                 addButton.setVisibility(View.VISIBLE);
+                                back.setVisibility(View.VISIBLE);
                             }
                         });
 
@@ -192,9 +218,21 @@ public class OpenAlbum extends AppCompatActivity {
                                         thumbAdapter = new ThumbAdapter(OpenAlbum.this, (ArrayList) album.getListofphotos());
                                         gridView.setAdapter(thumbAdapter);
                                         deleteButton.setVisibility(View.INVISIBLE);
+                                        cancel.setVisibility(View.INVISIBLE);
                                         moveButton.setVisibility(View.INVISIBLE);
                                         addButton.setVisibility(View.VISIBLE);
+                                        back.setVisibility(View.VISIBLE);
                                         albumUsers.saveToDisk(OpenAlbum.this);
+                                        Toast.makeText(getApplicationContext(),"Moved",Toast.LENGTH_SHORT).show();
+                                    }else {
+                                        deleteButton.setVisibility(View.INVISIBLE);
+                                        cancel.setVisibility(View.INVISIBLE);
+                                        moveButton.setVisibility(View.INVISIBLE);
+                                        addButton.setVisibility(View.VISIBLE);
+                                        back.setVisibility(View.VISIBLE);
+                                        albumUsers.saveToDisk(OpenAlbum.this);
+                                        Toast.makeText(getApplicationContext(),"Album Does Not Exist",Toast.LENGTH_SHORT).show();
+
                                     }
 
 
@@ -208,8 +246,10 @@ public class OpenAlbum extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
                                 deleteButton.setVisibility(View.INVISIBLE);
+                                cancel.setVisibility(View.INVISIBLE);
                                 moveButton.setVisibility(View.INVISIBLE);
                                 addButton.setVisibility(View.VISIBLE);
+                                back.setVisibility(View.VISIBLE);
                             }
                         });
 
@@ -222,6 +262,18 @@ public class OpenAlbum extends AppCompatActivity {
             }
         });
 
+        //ADD BACK HERE
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(OpenAlbum.this,MainActivity.class);
+                startActivity(intent);
+
+            }
+        });
+
+
 
     }
 
@@ -229,39 +281,68 @@ public class OpenAlbum extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        if(resultCode == RESULT_OK) {
 
-        Uri uri = data.getData();
-        ImageView iv = new ImageView(OpenAlbum.this);
-        iv.setImageURI(uri);
-        BitmapDrawable drawable = (BitmapDrawable) iv.getDrawable();
-        Bitmap select = drawable.getBitmap();
-
-
-        File f = new File(uri.getPath());
-        Photos photos = new Photos(f);
-        photos.setImage(select);
-        album.addPhoto(photos);
+            Uri uri = data.getData();
+            ImageView iv = new ImageView(OpenAlbum.this);
+            iv.setImageURI(uri);
+            BitmapDrawable drawable = (BitmapDrawable) iv.getDrawable();
+            Bitmap select = drawable.getBitmap();
 
 
+            File f = new File(uri.getPath());
+            String path = f.getAbsolutePath();
 
-       // albumUsers.saveToDisk(OpenAlbum.this);
-        thumbAdapter = new ThumbAdapter(OpenAlbum.this, (ArrayList) album.getListofphotos());
-        gridView.setAdapter(thumbAdapter);
-        albumUsers.saveToDisk(OpenAlbum.this);
-        Log.d("LIST OPENED",""+album.getListofphotos().size());
+            String x = null;
+           // String[] proj = {MediaStore.MediaColumns.DATA};
+            Cursor cursor = getContentResolver().query(uri,null,null,null,null);
+            if(cursor.moveToFirst()){
+                int columnIndex = cursor.getColumnIndexOrThrow(OpenableColumns.DISPLAY_NAME);
+                x = cursor.getString(columnIndex);
 
-
-
-
-       back.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
-
-           }
-       });
+            }
+            if (cursor != null) cursor.close();
+           // String filename = pathToFileName(path,uri);
 
 
+            Photos photos = new Photos(f);
+           // Log.d("PATH1",x + " name");
+            //Log.d("PATH1",uri + " uri");
+            //Log.d("PATH1",MediaStore.Images.Media.EXTERNAL_CONTENT_URI + " ");
+            photos.setImage(select);
+            photos.setCaption(x);
+            album.addPhoto(photos);
+
+
+            // albumUsers.saveToDisk(OpenAlbum.this);
+            thumbAdapter = new ThumbAdapter(OpenAlbum.this, (ArrayList) album.getListofphotos());
+            gridView.setAdapter(thumbAdapter);
+            albumUsers.saveToDisk(OpenAlbum.this);
+            Log.d("LIST OPENED", "" + album.getListofphotos().size());
+
+
+        }
     }
+
+//    private String pathToFileName(String pathID,Uri uri){
+//
+//        String id = pathID.split(":")[1];
+//        String[] column = {MediaStore.Images.Media.DATA};
+//        String selector = MediaStore.Images.Media._ID + "=?";
+//    String filePath = null;
+//        Cursor cursor = getContentResolver().query(uri,  column,
+//                null, null, null);
+//
+//        if(cursor.moveToFirst()){
+//            int index = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
+//            filePath = cursor.getString(index);
+//        }
+//        if (cursor != null) cursor.close();
+//
+//       // String filename = filePath.substring(filePath.lastIndexOf('/')+1);
+//        return filePath;
+//
+//    }
 
 
 
