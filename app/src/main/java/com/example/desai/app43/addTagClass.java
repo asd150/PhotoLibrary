@@ -121,18 +121,18 @@ public class addTagClass extends AppCompatActivity {
 }
 
     public void cancel(){
-
-        tagValue.setText("");
-        Bundle bundle = new Bundle();
-        bundle.putInt(ALBUM_INDEX, albumindex);
-        bundle.putInt(PHOTO_INDEX, photoindex);
-
-
-
-
-        Intent intent = new Intent(addTagClass.this,OpenPhoto.class);
-        intent.putExtras(bundle);
-        startActivity(intent);
+        finish();
+//        tagValue.setText("");
+//        Bundle bundle = new Bundle();
+//        bundle.putInt(ALBUM_INDEX, albumindex);
+//        bundle.putInt(PHOTO_INDEX, photoindex);
+//
+//
+//
+//
+//        Intent intent = new Intent(addTagClass.this,OpenPhoto.class);
+//        intent.putExtras(bundle);
+//        startActivity(intent);
     }
 
 }

@@ -120,7 +120,7 @@ public class OpenAlbum extends AppCompatActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
 
-                Toast.makeText(getApplicationContext(),"Selected position " + position,Toast.LENGTH_SHORT ).show();
+                Toast.makeText(getApplicationContext(),"Selected Photo : " + album.getListofphotos().get(position).getCaption(),Toast.LENGTH_SHORT ).show();
                 final int selectedPhoto = position;
                 deleteButton.setVisibility(View.VISIBLE);
                 cancel.setVisibility(View.VISIBLE);
