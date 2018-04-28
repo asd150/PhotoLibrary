@@ -83,8 +83,8 @@ public class Album implements Serializable {
 
 
 
-        this.set_early(this.listofphotos.get(0));
-        this.set_old(this.listofphotos.get(this.sizes-1));
+  //      this.set_early(this.listofphotos.get(0));
+//        this.set_old(this.listofphotos.get(this.sizes-1));
     }
 
     /**
